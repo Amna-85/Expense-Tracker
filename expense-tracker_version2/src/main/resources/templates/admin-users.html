@@ -1,0 +1,39 @@
+
+         <div class="card-header">
+                <h5 class="mb-0">User Expense Summary</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Total Expenses</th>
+                            <th>Total Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="summary : ${userSummaries}">
+                            <td th:text="${summary.user.id}">1</td>
+                            <td th:text="${summary.user.username}">john</td>
+                            <td th:text="${summary.user.firstName + ' ' + summary.user.lastName}">John Doe</td>
+                            <td th:text="${summary.user.email}">john@email.com</td>
+                            <td th:text="${summary.totalExpenses}">5</td>
+                            <td th:text="'$' + ${#numbers.formatDecimal(summary.totalAmount, 1, 2)}">$150.00</td>
+                        </tr>
+                        <tr th:if="${userSummaries.empty}">
+                            <td colspan="6" class="text-center">No users found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-4 text-center">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html> -->

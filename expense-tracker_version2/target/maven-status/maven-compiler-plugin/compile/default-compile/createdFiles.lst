@@ -1,0 +1,12 @@
+com\expensetracker\controller\AnalyticsController.class
+com\expensetracker\service\AnalyticsService.class
+com\expensetracker\service\ExpenseService.class
+com\expensetracker\service\RequiredArgsConstructor.class
+com\expensetracker\controller\UserController.class
+com\expensetracker\controller\ExpenseController.class
+com\expensetracker\ExpenseTrackerApplication.class
+com\expensetracker\model\Expense.class
+com\expensetracker\controller\AdminController.class
+com\expensetracker\model\User.class
+com\expensetracker\model\UserExpenseSummary.class
+com\expensetracker\service\UserService.class

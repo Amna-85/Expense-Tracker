@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Expense Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --success: #4cc9f0;
+            --info: #4895ef;
+            --warning: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+            --gradient-success: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%);
+            --gradient-warning: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
+            --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            color: var(--dark) !important;
+            font-weight: 500;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: var(--gradient-primary);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+        
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin: 30px auto;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        
+        .dashboard-header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 0;
+        }
+        
+        .welcome-card {
+            background: var(--gradient-success);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin: -60px 30px 30px 30px;
+            box-shadow: 0 15px 35px rgba(76, 201, 240, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-card {
+            background: var(--gradient-card);
+            border-radius: 16px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.8);
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-primary);
+            opacity: 0.1;
+            transition: left 0.4s ease;
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .nav-card:hover::before {
+            left: 0;
+        }
+        
+        .icon-lg {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .quick-stats {
+            background: var(--gradient-card);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: transform 0.3s ease;
+        }
+        
+        .quick-stats:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+        
+        .stats-grid {
+            margin-top: 20px;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .navbar-text {
+            color: var(--dark) !important;
+            font-weight: 600;
+        }
+        
+        .content-section {
+            padding: 0 30px 30px 30px;
+        }
+        
+        .feature-badge {
+            background: var(--gradient-warning);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/dashboard}">
+                <i class="fas fa-wallet me-2"></i>
+                ExpenseTracker
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a th:href="@{/dashboard}" class="nav-link active">🏠 Dashboard</a>
+                <a th:href="@{/expenses}" class="nav-link">📝 Expenses</a>
+                <a th:href="@{/analytics}" class="nav-link">📊 Analytics</a>
+                <span class="navbar-text me-3">
+                    👋 <strong th:text="${user.firstName} + ' ' + ${user.lastName}">User</strong>
+                </span>
+                <a class="nav-link" th:href="@{/users/logout}">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container main-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header text-center">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">Financial Dashboard</h1>
+                <p class="lead mb-0 opacity-90">Take control of your finances with smart expense tracking</p>
+            </div>
+        </div>
+
+        <!-- Welcome Card -->
+        <div class="welcome-card floating">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h2 class="mb-3">Welcome back, <span th:text="${user.firstName}">User</span>! 👋</h2>
+                    <p class="mb-0 fs-5 opacity-90">Ready to take control of your finances? Start by adding an expense or viewing your analytics.</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <i class="fas fa-chart-line fa-5x opacity-75 pulse"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-section">
+            <!-- Navigation Cards -->
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="nav-card" th:href="@{/expenses/add}">
+                        <div class="icon-lg">💸</div>
+                        <h4>Add Expense</h4>
+                        <p class="text-muted mb-0">Record new expenses and track your spending</p>
+                        <span class="feature-badge">New</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="nav-card" th:href="@{/analytics}">
+                        <div class="icon-lg">📊</div>
+                        <h4>View Analytics</h4>
+                        <p class="text-muted mb-0">See spending patterns and insights</p>
+                        <span class="feature-badge" style="background: var(--gradient-success);">Insights</span>
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <a class="nav-card" th:href="@{/expenses}">
+                        <div class="icon-lg">📋</div>
+                        <h4>Expense List</h4>
+                        <p class="text-muted mb-0">View and manage all your expenses</p>
+                        <span class="feature-badge" style="background: var(--gradient-warning);">Manage</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="row stats-grid">
+                <div class="col-md-3">
+                    <div class="quick-stats text-center">
+                        <div class="icon-lg text-success mb-3">💰</div>
+                        <h5>Monthly Income</h5>
+                        <div class="stat-number" th:text="'$' + ${user.monthlyIncome}">$0</div>
+                        <small class="text-muted">Your monthly earnings</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="quick-stats text-center">
+                        <div class="icon-lg text-primary mb-3">📈</div>
+                        <h5>Budget Limit</h5>
+                        <div class="stat-number" th:text="'$' + ${user.monthlyExpenseLimit}">$0</div>
+                        <small class="text-muted">Monthly spending limit</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="quick-stats text-center">
+                        <div class="icon-lg text-warning mb-3">🎯</div>
+                        <h5>Savings Goal</h5>
+                        <div class="stat-number" th:text="'$' + (${user.monthlyIncome} - ${user.monthlyExpenseLimit})">$0</div>
+                        <small class="text-muted">Potential monthly savings</small>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="quick-stats text-center">
+                        <div class="icon-lg text-info mb-3">⚡</div>
+                        <h5>Financial Health</h5>
+                        <div class="stat-number">
+                            <span th:if="${(user.monthlyIncome - user.monthlyExpenseLimit) / user.monthlyIncome * 100 > 20}">Great</span>
+                            <span th:if="${(user.monthlyIncome - user.monthlyExpenseLimit) / user.monthlyIncome * 100 <= 20}">Good</span>
+                        </div>
+                        <small class="text-muted">Based on your budget</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Features Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="quick-stats">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <h4 class="mb-3">🚀 Ready to Optimize Your Finances?</h4>
+                                <p class="text-muted mb-0">Track your expenses, analyze spending patterns, and achieve your financial goals with our comprehensive expense tracking system.</p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <a th:href="@{/expenses/add}" class="btn btn-primary btn-lg px-4">
+                                    <i class="fas fa-rocket me-2"></i>Get Started
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        console.log("Dashboard loaded successfully!");
+        
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to cards
+            const cards = document.querySelectorAll('.nav-card, .quick-stats');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = this.classList.contains('nav-card') ? 'translateY(-8px)' : 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add loading animation
+            const welcomeCard = document.querySelector('.welcome-card');
+            setTimeout(() => {
+                welcomeCard.style.opacity = '1';
+                welcomeCard.style.transform = 'translateY(0)';
+            }, 300);
+        });
+    </script>
+</body>
+</html>
