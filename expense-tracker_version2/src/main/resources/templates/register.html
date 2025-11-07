@@ -1,182 +1,550 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Expense Tracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            /* Emerald Financial Theme */
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #10b981;
+            --secondary: #7c3aed;
+            --secondary-dark: #6d28d9;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #059669;
+            --warning: #f59e0b;
+            --error: #dc2626;
+            
+            /* Alternative: Professional Teal */
+            /* --primary: #0d9488;
+            --primary-dark: #0f766e;
+            --primary-light: #14b8a6;
+            --secondary: #8b5cf6; */
+            
+            /* Alternative: Sophisticated Purple */
+            /* --primary: #7e22ce;
+            --primary-dark: #6b21a8;
+            --primary-light: #a855f7;
+            --secondary: #06b6d4; */
+        }
+        
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--dark);
+            padding: 20px 0;
         }
+        
         .register-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             overflow: hidden;
             max-width: 500px;
             width: 100%;
+            margin: 0 auto;
+            position: relative;
         }
+        
         .register-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: white;
-            padding: 30px;
+            padding: 40px 30px 30px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .register-header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,186.7C384,213,480,235,576,213.3C672,192,768,128,864,128C960,128,1056,192,1152,192C1248,192,1344,128,1392,96L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-position: center;
+        }
+        
         .register-header h2 {
             margin: 0;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 2rem;
+            position: relative;
+            z-index: 1;
         }
+        
+        .register-header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header-icon {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            padding: 20px;
+            display: inline-block;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
         .register-body {
-            padding: 30px;
+            padding: 40px 30px;
         }
+        
         .form-control {
-            border-radius: 8px;
-            border: 2px solid #e9ecef;
-            padding: 12px 15px;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        .form-label {
-            font-weight: 600;
-            color: #495057;
-            margin-bottom: 8px;
-        }
-        .btn-register {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-weight: 600;
+            border-radius: 12px;
+            border: 2px solid var(--gray-light);
+            padding: 14px 18px;
             font-size: 16px;
             transition: all 0.3s ease;
+            background: white;
+            color: var(--dark);
         }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            background: white;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .btn-register {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            color: white;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+            box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
+        }
+        
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 15px -3px rgba(5, 150, 105, 0.4);
         }
+        
         .financial-section {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border-left: 4px solid #667eea;
+            background: var(--light);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .financial-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+        }
+        
         .financial-section h6 {
-            color: #667eea;
-            font-weight: 600;
+            color: var(--dark);
+            font-weight: 700;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
         }
+        
+        .financial-section h6 i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+        
         .login-link {
             text-align: center;
-            margin-top: 20px;
-            color: #6c757d;
+            margin-top: 25px;
+            color: var(--gray);
+            font-size: 15px;
         }
+        
         .login-link a {
-            color: #667eea;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            transition: color 0.3s ease;
         }
+        
         .login-link a:hover {
+            color: var(--primary-dark);
             text-decoration: underline;
         }
+        
         .alert {
-            border-radius: 8px;
+            border-radius: 12px;
             border: none;
-            padding: 12px 15px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
         }
-        .form-text {
-            color: #6c757d;
-            font-size: 0.875em;
+        
+        .alert-danger {
+            background: rgba(220, 38, 38, 0.1);
+            color: var(--error);
+            border-left: 4px solid var(--error);
         }
+        
+        .alert-success {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group .icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            z-index: 5;
+        }
+        
+        .input-group .form-control {
+            padding-left: 50px;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .feature-list {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .feature-item {
+            padding: 10px;
+            background: var(--light);
+            border-radius: 10px;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .feature-item i {
+            font-size: 20px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .feature-item span {
+            display: block;
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 500;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--gray-light);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .password-strength {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        .requirement i {
+            margin-right: 5px;
+            font-size: 10px;
+        }
+        
+        .requirement.met {
+            color: var(--success);
+        }
+        
+        .requirement.unmet {
+            color: var(--gray);
+        }
+        
+        .color-options {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .color-option {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: transform 0.2s ease;
+        }
+        
+        .color-option:hover {
+            transform: scale(1.2);
+        }
+        
+        .color-option.active {
+            border-color: var(--dark);
+            transform: scale(1.2);
+        }
+        
+        .color-option.emerald { background: linear-gradient(135deg, #059669, #047857); }
+        .color-option.teal { background: linear-gradient(135deg, #0d9488, #0f766e); }
+        .color-option.purple { background: linear-gradient(135deg, #7e22ce, #6b21a8); }
+        .color-option.amber { background: linear-gradient(135deg, #d97706, #b45309); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="register-container">
+                <div class="register-container floating">
                     <div class="register-header">
-                        <h2>💰 Create Account</h2>
-                        <p class="mb-0">Start tracking your expenses today</p>
+                        <div class="header-icon">
+                            <i class="fas fa-piggy-bank fa-2x"></i>
+                        </div>
+                        <h2>Create Account</h2>
+                        <p>Start tracking your expenses today</p>
+                        
+                        <!-- Color Theme Selector -->
+                        <div class="color-options">
+                            <div class="color-option emerald active" onclick="changeTheme('emerald')" title="Emerald"></div>
+                            <div class="color-option teal" onclick="changeTheme('teal')" title="Teal"></div>
+                            <div class="color-option purple" onclick="changeTheme('purple')" title="Purple"></div>
+                            <div class="color-option amber" onclick="changeTheme('amber')" title="Amber"></div>
+                        </div>
                     </div>
                     
                     <div class="register-body">
                         <!-- Success/Error Messages -->
-                        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-                        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+                        <div th:if="${success}" class="alert alert-success">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <span th:text="${success}"></span>
+                        </div>
+                        <div th:if="${error}" class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span th:text="${error}"></span>
+                        </div>
 
-                        <!-- ✅ FIXED: Changed from @{/register} to @{/users/register} -->
+                        <!-- Registration Form -->
                         <form th:action="@{/users/register}" method="post">
                             <!-- Personal Information -->
-                            <div class="mb-3">
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-control" name="firstName" 
-                                       th:value="${firstName}" 
-                                       placeholder="Enter your first name" required>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i>First Name
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-user icon"></i>
+                                    <input type="text" class="form-control" name="firstName" 
+                                           th:value="${firstName}" 
+                                           placeholder="Enter your first name" required>
+                                </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control" name="lastName" 
-                                       th:value="${lastName}"
-                                       placeholder="Enter your last name" required>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i>Last Name
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-user icon"></i>
+                                    <input type="text" class="form-control" name="lastName" 
+                                           th:value="${lastName}"
+                                           placeholder="Enter your last name" required>
+                                </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" class="form-control" name="username" 
-                                       th:value="${username}"
-                                       placeholder="Choose a username" required>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-at"></i>Username
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-at icon"></i>
+                                    <input type="text" class="form-control" name="username" 
+                                           th:value="${username}"
+                                           placeholder="Choose a username" required>
+                                </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Email Address</label>
-                                <input type="email" class="form-control" name="email" 
-                                       th:value="${email}"
-                                       placeholder="Enter your email" required>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-envelope"></i>Email Address
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-envelope icon"></i>
+                                    <input type="email" class="form-control" name="email" 
+                                           th:value="${email}"
+                                           placeholder="Enter your email" required>
+                                </div>
                             </div>
                             
-                            <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" name="password" 
-                                       placeholder="Create a password" required>
-                                <div class="form-text">Use a strong password with letters, numbers, and symbols.</div>
+                            <div class="mb-4">
+                                <label class="form-label">
+                                    <i class="fas fa-lock"></i>Password
+                                </label>
+                                <div class="input-group">
+                                    <i class="fas fa-lock icon"></i>
+                                    <input type="password" class="form-control" id="password" name="password" 
+                                           placeholder="Create a password" required>
+                                </div>
+                                <div class="progress-container">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="password-strength-bar"></div>
+                                    </div>
+                                    <div class="password-strength">
+                                        <span>Password Strength</span>
+                                        <span id="password-strength-text">Weak</span>
+                                    </div>
+                                </div>
+                                <div class="password-requirements">
+                                    <div class="requirement unmet" id="length-req">
+                                        <i class="fas fa-circle"></i> At least 8 characters
+                                    </div>
+                                    <div class="requirement unmet" id="uppercase-req">
+                                        <i class="fas fa-circle"></i> Contains uppercase letter
+                                    </div>
+                                    <div class="requirement unmet" id="lowercase-req">
+                                        <i class="fas fa-circle"></i> Contains lowercase letter
+                                    </div>
+                                    <div class="requirement unmet" id="number-req">
+                                        <i class="fas fa-circle"></i> Contains number
+                                    </div>
+                                    <div class="requirement unmet" id="special-req">
+                                        <i class="fas fa-circle"></i> Contains special character
+                                    </div>
+                                </div>
                             </div>
                             
                             <!-- Financial Information -->
                             <div class="financial-section">
-                                <h6>📊 Financial Setup</h6>
+                                <h6>
+                                    <i class="fas fa-chart-line"></i>Financial Setup
+                                </h6>
                                 <p class="text-muted small mb-3">This helps us provide personalized insights and recommendations.</p>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label">Monthly Income ($)</label>
-                                    <input type="number" class="form-control" name="monthlyIncome" 
-                                           step="0.01" min="0" 
-                                           th:value="${monthlyIncome != null} ? ${monthlyIncome} : 0"
-                                           placeholder="e.g., 5000.00" required>
+                                <div class="mb-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-money-bill-wave"></i>Monthly Income ($)
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-dollar-sign icon"></i>
+                                        <input type="number" class="form-control" name="monthlyIncome" 
+                                               step="0.01" min="0" 
+                                               th:value="${monthlyIncome != null} ? ${monthlyIncome} : 0"
+                                               placeholder="e.g., 5000.00" required>
+                                    </div>
                                     <div class="form-text">Your total monthly income after taxes.</div>
                                 </div>
                                 
-                                <div class="mb-3">
-                                    <label class="form-label">Monthly Expense Limit ($)</label>
-                                    <input type="number" class="form-control" name="monthlyExpenseLimit" 
-                                           step="0.01" min="0" 
-                                           th:value="${monthlyExpenseLimit != null} ? ${monthlyExpenseLimit} : 0"
-                                           placeholder="e.g., 3000.00" required>
+                                <div class="mb-4">
+                                    <label class="form-label">
+                                        <i class="fas fa-chart-pie"></i>Monthly Expense Limit ($)
+                                    </label>
+                                    <div class="input-group">
+                                        <i class="fas fa-dollar-sign icon"></i>
+                                        <input type="number" class="form-control" name="monthlyExpenseLimit" 
+                                               step="0.01" min="0" 
+                                               th:value="${monthlyExpenseLimit != null} ? ${monthlyExpenseLimit} : 0"
+                                               placeholder="e.g., 3000.00" required>
+                                    </div>
                                     <div class="form-text">Set a budget limit for your monthly spending.</div>
                                 </div>
                             </div>
                             
-                            <button type="submit" class="btn btn-register w-100">
-                                🚀 Create Account
+                            <button type="submit" class="btn-register">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
                             </button>
                         </form>
+                        
+                        <!-- Features -->
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Secure</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <span>Analytics</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>Mobile</span>
+                            </div>
+                        </div>
                         
                         <div class="login-link">
                             Already have an account? <a th:href="@{/users/login}">Sign in here</a>
@@ -189,5 +557,109 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Theme Switcher and Password Strength -->
+    <script>
+        // Theme switching functionality
+        function changeTheme(theme) {
+            const root = document.documentElement;
+            const colorOptions = document.querySelectorAll('.color-option');
+            
+            colorOptions.forEach(option => option.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            switch(theme) {
+                case 'emerald':
+                    root.style.setProperty('--primary', '#059669');
+                    root.style.setProperty('--primary-dark', '#047857');
+                    root.style.setProperty('--primary-light', '#10b981');
+                    break;
+                case 'teal':
+                    root.style.setProperty('--primary', '#0d9488');
+                    root.style.setProperty('--primary-dark', '#0f766e');
+                    root.style.setProperty('--primary-light', '#14b8a6');
+                    break;
+                case 'purple':
+                    root.style.setProperty('--primary', '#7e22ce');
+                    root.style.setProperty('--primary-dark', '#6b21a8');
+                    root.style.setProperty('--primary-light', '#a855f7');
+                    break;
+                case 'amber':
+                    root.style.setProperty('--primary', '#d97706');
+                    root.style.setProperty('--primary-dark', '#b45309');
+                    root.style.setProperty('--primary-light', '#f59e0b');
+                    break;
+            }
+        }
+
+        // Password strength checker
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.getElementById('password-strength-bar');
+            const strengthText = document.getElementById('password-strength-text');
+            
+            // Password requirement elements
+            const lengthReq = document.getElementById('length-req');
+            const uppercaseReq = document.getElementById('uppercase-req');
+            const lowercaseReq = document.getElementById('lowercase-req');
+            const numberReq = document.getElementById('number-req');
+            const specialReq = document.getElementById('special-req');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                let strength = 0;
+                
+                // Check password requirements
+                const hasLength = password.length >= 8;
+                const hasUppercase = /[A-Z]/.test(password);
+                const hasLowercase = /[a-z]/.test(password);
+                const hasNumber = /[0-9]/.test(password);
+                const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+                
+                // Update requirement indicators
+                updateRequirement(lengthReq, hasLength);
+                updateRequirement(uppercaseReq, hasUppercase);
+                updateRequirement(lowercaseReq, hasLowercase);
+                updateRequirement(numberReq, hasNumber);
+                updateRequirement(specialReq, hasSpecial);
+                
+                // Calculate strength
+                if (hasLength) strength += 20;
+                if (hasUppercase) strength += 20;
+                if (hasLowercase) strength += 20;
+                if (hasNumber) strength += 20;
+                if (hasSpecial) strength += 20;
+                
+                // Update strength bar and text
+                strengthBar.style.width = strength + '%';
+                
+                if (strength < 40) {
+                    strengthBar.style.background = 'linear-gradient(90deg, #ef4444 0%, #f59e0b 100%)';
+                    strengthText.textContent = 'Weak';
+                    strengthText.style.color = '#ef4444';
+                } else if (strength < 80) {
+                    strengthBar.style.background = 'linear-gradient(90deg, #f59e0b 0%, #eab308 100%)';
+                    strengthText.textContent = 'Medium';
+                    strengthText.style.color = '#f59e0b';
+                } else {
+                    strengthBar.style.background = 'linear-gradient(90deg, #10b981 0%, #22c55e 100%)';
+                    strengthText.textContent = 'Strong';
+                    strengthText.style.color = '#10b981';
+                }
+            });
+            
+            function updateRequirement(element, condition) {
+                if (condition) {
+                    element.classList.remove('unmet');
+                    element.classList.add('met');
+                    element.innerHTML = '<i class="fas fa-check-circle"></i>' + element.textContent.substring(11);
+                } else {
+                    element.classList.remove('met');
+                    element.classList.add('unmet');
+                    element.innerHTML = '<i class="fas fa-circle"></i>' + element.textContent.substring(11);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
