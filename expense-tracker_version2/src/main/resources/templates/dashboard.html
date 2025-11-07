@@ -3,172 +3,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Expense Tracker</title>
+    <title>Dashboard - Expense Tracker Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3a0ca3;
-            --success: #4cc9f0;
-            --info: #4895ef;
-            --warning: #f72585;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gradient-primary: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
-            --gradient-success: linear-gradient(135deg, #4cc9f0 0%, #4895ef 100%);
-            --gradient-warning: linear-gradient(135deg, #f72585 0%, #b5179e 100%);
-            --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            --primary: #059669;
+            --primary-dark: #047857;
+            --primary-light: #10b981;
+            --secondary: #0d9488;
+            --secondary-dark: #0f766e;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            --gradient-dark: linear-gradient(135deg, var(--dark) 0%, #0f172a 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
         }
         
+        /* Professional Navigation */
         .navbar {
-            background: rgba(255, 255, 255, 0.95) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-bottom: 1px solid rgba(5, 150, 105, 0.1);
+            padding: 12px 0;
         }
         
         .navbar-brand {
             font-weight: 700;
             color: var(--primary) !important;
             font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .nav-link {
             color: var(--dark) !important;
             font-weight: 500;
-            margin: 0 5px;
+            margin: 0 4px;
             border-radius: 8px;
             transition: all 0.3s ease;
+            padding: 8px 16px !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-link i {
+            margin-right: 8px;
+            width: 18px;
+            text-align: center;
         }
         
         .nav-link:hover, .nav-link.active {
             background: var(--gradient-primary);
             color: white !important;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
         
-        .main-container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            margin: 30px auto;
-            padding: 0;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.3);
+        .navbar-toggler {
+            border: none;
+            padding: 4px 8px;
+        }
+        
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%285, 150, 105, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            background: var(--light);
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--gray-light);
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: var(--gray);
+        }
+        
+        /* Main Dashboard Layout */
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            flex: 1;
         }
         
         .dashboard-header {
-            background: var(--gradient-primary);
-            color: white;
-            padding: 40px 0;
-            margin-bottom: 0;
+            margin-bottom: 30px;
         }
         
+        .dashboard-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dashboard-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        /* Welcome Card */
         .welcome-card {
-            background: var(--gradient-success);
+            background: var(--gradient-primary);
             color: white;
             border-radius: 20px;
-            padding: 40px;
-            margin: -60px 30px 30px 30px;
-            box-shadow: 0 15px 35px rgba(76, 201, 240, 0.3);
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(5, 150, 105, 0.2);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .welcome-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+        }
+        
+        .welcome-content h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
             position: relative;
             z-index: 2;
         }
         
-        .nav-card {
-            background: var(--gradient-card);
-            border-radius: 16px;
-            padding: 30px 25px;
-            text-align: center;
+        .welcome-content p {
+            opacity: 0.9;
+            margin-bottom: 0;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .welcome-icon {
+            font-size: 5rem;
+            opacity: 0.8;
+            position: relative;
+            z-index: 2;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+        
+        /* Enhanced Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-            transition: all 0.4s ease;
             border: 1px solid rgba(255,255,255,0.8);
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            margin-bottom: 25px;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .nav-card::before {
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 6px 15px rgba(5, 150, 105, 0.3);
+        }
+        
+        .stat-card:nth-child(2) .stat-icon {
+            background: var(--gradient-secondary);
+        }
+        
+        .stat-card:nth-child(3) .stat-icon {
+            background: var(--gradient-accent);
+        }
+        
+        .stat-card:nth-child(4) .stat-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+        
+        .stat-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 20px;
+            width: fit-content;
+        }
+        
+        .trend-up {
+            color: var(--success);
+        }
+        
+        .trend-down {
+            color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        /* Interactive Quick Actions */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+            transition: all 0.4s ease;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(5, 150, 105, 0.05), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .action-card:hover::before {
+            left: 100%;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .action-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 2.2rem;
             background: var(--gradient-primary);
-            opacity: 0.1;
-            transition: left 0.4s ease;
+            color: white;
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
+            transition: all 0.3s ease;
         }
         
-        .nav-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        .action-card:hover .action-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 25px rgba(5, 150, 105, 0.4);
         }
         
-        .nav-card:hover::before {
+        .action-card:nth-child(2) .action-icon {
+            background: var(--gradient-secondary);
+            box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+        }
+        
+        .action-card:nth-child(3) .action-icon {
+            background: var(--gradient-accent);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+        }
+        
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+        
+        .action-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* Financial Goals Section */
+        .goals-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .goals-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
             left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
         }
         
-        .icon-lg {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
         
-        .quick-stats {
-            background: var(--gradient-card);
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 12px;
+            color: var(--accent);
+        }
+        
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .goal-card {
+            background: var(--light);
             border-radius: 16px;
             padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            border: 1px solid rgba(255,255,255,0.8);
-            transition: transform 0.3s ease;
+            border-left: 4px solid var(--primary);
+            transition: all 0.3s ease;
         }
         
-        .quick-stats:hover {
-            transform: translateY(-5px);
+        .goal-card:hover {
+            transform: translateX(8px);
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .stat-number {
-            font-size: 2.2rem;
-            font-weight: 800;
+        .goal-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+        
+        .goal-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .goal-progress {
+            height: 6px;
+            background: var(--gray-light);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .goal-progress-bar {
+            height: 100%;
             background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 5px;
+            border-radius: 3px;
+            transition: width 1s ease;
         }
         
-        .stats-grid {
-            margin-top: 20px;
+        .goal-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray);
         }
         
-        .floating {
-            animation: floating 3s ease-in-out infinite;
+        /* Motivational Section */
+        .motivational-section {
+            background: var(--gradient-dark);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
         }
         
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        .motivational-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
         
-        .pulse {
-            animation: pulse 2s infinite;
+        .motivational-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+            color: var(--accent);
+        }
+        
+        .motivational-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .motivational-text {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 2;
+            line-height: 1.6;
+        }
+        
+        /* Tips Section */
+        .tips-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .tip-card {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            background: white;
+            border-color: var(--primary-light);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tip-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(5, 150, 105, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .tip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+        
+        .tip-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
         }
         
         @keyframes pulse {
@@ -177,192 +641,416 @@
             100% { transform: scale(1); }
         }
         
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+        .pulse {
+            animation: pulse 3s infinite;
         }
         
-        .navbar-text {
-            color: var(--dark) !important;
-            font-weight: 600;
-        }
-        
-        .content-section {
-            padding: 0 30px 30px 30px;
-        }
-        
-        .feature-badge {
-            background: var(--gradient-warning);
+        /* Footer */
+        .footer {
+            background: var(--dark);
             color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 50px 0 30px;
+            margin-top: auto;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-section {
+            margin-bottom: 30px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-left: 10px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .goals-grid, .tips-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navbar-nav {
+                margin-top: 10px;
+            }
+            
+            .user-menu {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Professional Navigation with Hamburger Menu -->
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
             <a class="navbar-brand" th:href="@{/dashboard}">
                 <i class="fas fa-wallet me-2"></i>
-                ExpenseTracker
+                Expense<span style="color: var(--primary-dark);">Tracker</span>
             </a>
-            <div class="navbar-nav ms-auto">
-                <a th:href="@{/dashboard}" class="nav-link active">🏠 Dashboard</a>
-                <a th:href="@{/expenses}" class="nav-link">📝 Expenses</a>
-                <a th:href="@{/analytics}" class="nav-link">📊 Analytics</a>
-                <span class="navbar-text me-3">
-                    👋 <strong th:text="${user.firstName} + ' ' + ${user.lastName}">User</strong>
-                </span>
-                <a class="nav-link" th:href="@{/users/logout}">
-                    <i class="fas fa-sign-out-alt me-1"></i>Logout
-                </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a th:href="@{/dashboard}" class="nav-link active">
+                            <i class="fas fa-home"></i>Dashboard
+                        </a>
+                    </li>
+                     <li class="nav-item">
+                        <a th:href="@{/expenses/add}" class="nav-link">
+                            <i class="fas fa-add"></i>Add Expense
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/expenses}" class="nav-link">
+                            <i class="fas fa-receipt"></i>Expenses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/analytics}" class="nav-link">
+                            <i class="fas fa-chart-bar"></i>Analytics
+                        </a>
+                    </li>
+                   
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="user-menu me-3">
+                        <div class="user-avatar">
+                            <span th:text="${user.firstName.substring(0,1)}">U</span>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-name" th:text="${user.firstName} + ' ' + ${user.lastName}">User Name</div>
+                            <div class="user-role">Premium Member</div>
+                        </div>
+                    </div>
+                    <a class="nav-link" th:href="@{/users/logout}">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- Main Container -->
-    <div class="container main-container">
+    <!-- Main Dashboard -->
+    <div class="dashboard-container">
         <!-- Dashboard Header -->
-        <div class="dashboard-header text-center">
-            <div class="container">
-                <h1 class="display-5 fw-bold mb-3">Financial Dashboard</h1>
-                <p class="lead mb-0 opacity-90">Take control of your finances with smart expense tracking</p>
-            </div>
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Financial Dashboard</h1>
+            <p class="dashboard-subtitle">Welcome back! Here's your financial overview for <span id="current-date"></span></p>
         </div>
 
         <!-- Welcome Card -->
-        <div class="welcome-card floating">
+        <div class="welcome-card fade-in-up">
             <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h2 class="mb-3">Welcome back, <span th:text="${user.firstName}">User</span>! 👋</h2>
-                    <p class="mb-0 fs-5 opacity-90">Ready to take control of your finances? Start by adding an expense or viewing your analytics.</p>
+                <div class="col-md-8 welcome-content">
+                    <h2>Welcome back, <span th:text="${user.firstName}">User</span>! 👋</h2>
+                    <p>Ready to take control of your finances? Track expenses, set goals, and watch your savings grow.</p>
                 </div>
                 <div class="col-md-4 text-end">
-                    <i class="fas fa-chart-line fa-5x opacity-75 pulse"></i>
+                    <i class="fas fa-rocket welcome-icon pulse"></i>
                 </div>
             </div>
         </div>
 
-        <!-- Main Content -->
-        <div class="content-section">
-            <!-- Navigation Cards -->
-            <div class="row">
-                <div class="col-md-4">
-                    <a class="nav-card" th:href="@{/expenses/add}">
-                        <div class="icon-lg">💸</div>
-                        <h4>Add Expense</h4>
-                        <p class="text-muted mb-0">Record new expenses and track your spending</p>
-                        <span class="feature-badge">New</span>
-                    </a>
+        <!-- Enhanced Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card fade-in-up">
+                <div class="stat-icon">
+                    <i class="fas fa-money-bill-wave"></i>
                 </div>
-                <div class="col-md-4">
-                    <a class="nav-card" th:href="@{/analytics}">
-                        <div class="icon-lg">📊</div>
-                        <h4>View Analytics</h4>
-                        <p class="text-muted mb-0">See spending patterns and insights</p>
-                        <span class="feature-badge" style="background: var(--gradient-success);">Insights</span>
-                    </a>
-                </div>
-                <div class="col-md-4">
-                    <a class="nav-card" th:href="@{/expenses}">
-                        <div class="icon-lg">📋</div>
-                        <h4>Expense List</h4>
-                        <p class="text-muted mb-0">View and manage all your expenses</p>
-                        <span class="feature-badge" style="background: var(--gradient-warning);">Manage</span>
-                    </a>
+                <div class="stat-value" th:text="'$' + ${#numbers.formatDecimal(user.monthlyIncome, 0, 0)}">$5,000</div>
+                <div class="stat-label">Monthly Income</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-arrow-up me-1"></i> Ready to track
                 </div>
             </div>
-
-            <!-- Quick Stats -->
-            <div class="row stats-grid">
-                <div class="col-md-3">
-                    <div class="quick-stats text-center">
-                        <div class="icon-lg text-success mb-3">💰</div>
-                        <h5>Monthly Income</h5>
-                        <div class="stat-number" th:text="'$' + ${user.monthlyIncome}">$0</div>
-                        <small class="text-muted">Your monthly earnings</small>
-                    </div>
+            
+            <div class="stat-card fade-in-up">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-pie"></i>
                 </div>
-                <div class="col-md-3">
-                    <div class="quick-stats text-center">
-                        <div class="icon-lg text-primary mb-3">📈</div>
-                        <h5>Budget Limit</h5>
-                        <div class="stat-number" th:text="'$' + ${user.monthlyExpenseLimit}">$0</div>
-                        <small class="text-muted">Monthly spending limit</small>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="quick-stats text-center">
-                        <div class="icon-lg text-warning mb-3">🎯</div>
-                        <h5>Savings Goal</h5>
-                        <div class="stat-number" th:text="'$' + (${user.monthlyIncome} - ${user.monthlyExpenseLimit})">$0</div>
-                        <small class="text-muted">Potential monthly savings</small>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="quick-stats text-center">
-                        <div class="icon-lg text-info mb-3">⚡</div>
-                        <h5>Financial Health</h5>
-                        <div class="stat-number">
-                            <span th:if="${(user.monthlyIncome - user.monthlyExpenseLimit) / user.monthlyIncome * 100 > 20}">Great</span>
-                            <span th:if="${(user.monthlyIncome - user.monthlyExpenseLimit) / user.monthlyIncome * 100 <= 20}">Good</span>
-                        </div>
-                        <small class="text-muted">Based on your budget</small>
-                    </div>
+                <div class="stat-value" th:text="'$' + ${#numbers.formatDecimal(user.monthlyExpenseLimit, 0, 0)}">$3,500</div>
+                <div class="stat-label">Monthly Budget</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-target me-1"></i> Smart spending
                 </div>
             </div>
+            
+            <div class="stat-card fade-in-up">
+                <div class="stat-icon">
+                    <i class="fas fa-piggy-bank"></i>
+                </div>
+                <div class="stat-value" th:text="'$' + ${#numbers.formatDecimal(user.monthlyIncome - user.monthlyExpenseLimit, 0, 0)}">$1,500</div>
+                <div class="stat-label">Potential Savings</div>
+                <div class="stat-trend trend-up">
+                    <i class="fas fa-chart-line me-1"></i> Great potential
+                </div>
+            </div>
+            
+            </div>
+        </div>
 
-            <!-- Additional Features Section -->
-            <div class="row mt-5">
-                <div class="col-12">
-                    <div class="quick-stats">
-                        <div class="row align-items-center">
-                            <div class="col-md-8">
-                                <h4 class="mb-3">🚀 Ready to Optimize Your Finances?</h4>
-                                <p class="text-muted mb-0">Track your expenses, analyze spending patterns, and achieve your financial goals with our comprehensive expense tracking system.</p>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <a th:href="@{/expenses/add}" class="btn btn-primary btn-lg px-4">
-                                    <i class="fas fa-rocket me-2"></i>Get Started
-                                </a>
-                            </div>
-                        </div>
+        <!-- Interactive Quick Actions -->
+        <div class="actions-grid">
+            <a class="action-card fade-in-up" th:href="@{/expenses/add}">
+                <div class="action-icon">
+                    <i class="fas fa-plus"></i>
+                </div>
+                <div class="action-title">Add Expense</div>
+                <div class="action-desc">Record your spending and keep track of every dollar</div>
+            </a>
+            
+            <a class="action-card fade-in-up" th:href="@{/analytics}">
+                <div class="action-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="action-title">View Analytics</div>
+                <div class="action-desc">Discover spending patterns and financial insights</div>
+            </a>
+            
+            <a class="action-card fade-in-up" th:href="@{/expenses}">
+                <div class="action-icon">
+                    <i class="fas fa-list"></i>
+                </div>
+                <div class="action-title">Expense List</div>
+                <div class="action-desc">Manage and review all your recorded expenses</div>
+            </a>
+        </div>
+
+    
+        <!-- Financial Tips Section -->
+        <div class="tips-section fade-in-up">
+            <div class="section-header">
+                <h3 class="section-title"><i class="fas fa-lightbulb"></i>Smart Financial Tips</h3>
+            </div>
+            
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-receipt"></i>
                     </div>
+                    <div class="tip-title">Track Daily Expenses</div>
+                    <div class="tip-desc">Record every purchase to understand your spending habits and identify saving opportunities.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="tip-title">Review Weekly</div>
+                    <div class="tip-desc">Check your analytics weekly to spot trends and adjust your budget accordingly.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <div class="tip-title">Set Clear Goals</div>
+                    <div class="tip-desc">Define specific financial targets to stay motivated and measure your progress.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="tip-title">Automate Savings</div>
+                    <div class="tip-desc">Set up automatic transfers to your savings account to build wealth effortlessly.</div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 footer-section">
+                    <h3 class="footer-title">ExpenseTracker<span style="color: var(--primary-light);">Pro</span></h3>
+                    <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                        Take control of your finances with our comprehensive expense tracking solution. 
+                        Track, analyze, and optimize your spending habits.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 footer-section">
+                    <h4 class="footer-title">Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Updates</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 footer-section">
+                    <h4 class="footer-title">Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 footer-section">
+                    <h4 class="footer-title">Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 footer-section">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">GDPR</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 ExpenseTrackerPro. All rights reserved. | Financial data secured with bank-level encryption</p>
+            </div>
+        </div>
+    </footer>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        console.log("Dashboard loaded successfully!");
-        
-        // Add some interactive animations
+        // Set current date
         document.addEventListener('DOMContentLoaded', function() {
-            // Add hover effects to cards
-            const cards = document.querySelectorAll('.nav-card, .quick-stats');
-            cards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = this.classList.contains('nav-card') ? 'translateY(-8px)' : 'translateY(-5px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+            
+            // Add staggered animation to cards
+            const cards = document.querySelectorAll('.fade-in-up');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
             });
             
-            // Add loading animation
-            const welcomeCard = document.querySelector('.welcome-card');
-            setTimeout(() => {
-                welcomeCard.style.opacity = '1';
-                welcomeCard.style.transform = 'translateY(0)';
-            }, 300);
+            // Add interactive hover effects
+            const interactiveCards = document.querySelectorAll('.stat-card, .action-card, .goal-card, .tip-card');
+            interactiveCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = this.classList.contains('stat-card') ? 'translateY(-8px)' : 
+                                          this.classList.contains('action-card') ? 'translateY(-8px) scale(1.02)' :
+                                          this.classList.contains('goal-card') ? 'translateX(8px)' :
+                                          'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) translateX(0) scale(1)';
+                });
+            });
+
+            // Animate progress bars on scroll
+            const progressBars = document.querySelectorAll('.goal-progress-bar');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const bar = entry.target;
+                        const width = bar.style.width;
+                        bar.style.width = '0%';
+                        setTimeout(() => {
+                            bar.style.transition = 'width 1.5s ease-in-out';
+                            bar.style.width = width;
+                        }, 300);
+                    }
+                });
+            });
+
+            progressBars.forEach(bar => observer.observe(bar));
         });
     </script>
 </body>
